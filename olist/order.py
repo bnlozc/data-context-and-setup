@@ -150,4 +150,38 @@ class Order:
         'distance_seller_customer']
         """
         # Hint: make sure to re-use your instance methods defined above
-        pass  # YOUR CODE HERE
+        data = self.data["orders"][["order_id"]].copy()
+
+        data = data.merge(
+            self.get_wait_time(),
+            on="order_id",
+            how="left"
+        )
+
+        data = data.merge(
+            self.get_review_score(),
+            on="order_id",
+            how="left"
+        )    
+
+        data = data.merge(
+            self.get_number_items(),
+            on="order_id",
+            how="left"
+        )   
+
+        data = data.merge(
+            self.get_number_sellers(),
+            on="order_id",
+            how="left"
+        )
+
+        data = data.merge(
+            self.get_price_and_freight(),
+            on="order_id",
+            how="left"
+        )
+
+        data = data.dropna()
+
+        return data
